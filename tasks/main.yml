@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: MIT
+---
+- name: Configure wsl.conf
+  become: true
+  ansible.builtin.template:
+    src: wsl.conf.j2
+    dest: /etc/wsl.conf
+    owner: root
+    group: root
+    mode: "0644"

@@ -1,0 +1,29 @@
+# SPDX-License-Identifier: MIT
+---
+galaxy_info:
+  author: greengorych
+  description: Ansible role for generating or changing per-distribution Windows Subsystem for Linux (WSL) configuration file wsl.conf.
+  issue_tracker_url: https://github.com/greengorych/ansible-role-wsl-conf/issues
+  license: MIT
+  min_ansible_version: "2.9"
+
+  platforms:
+    - name: all
+      versions:
+        - all
+
+  galaxy_tags:
+    - wsl
+    - wsl2
+    - wslconf
+    - configuration
+    - systemd
+    - automount
+    - network
+    - timezone
+    - interop
+    - user
+    - defaultuser
+    - boot
+
+dependencies: []

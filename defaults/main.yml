@@ -1,0 +1,98 @@
+# SPDX-License-Identifier: MIT
+---
+
+# ============================================
+# ⚠️ IMPORTANT
+# You can redefine variables at vars/main.yaml
+# ============================================
+
+# Boot Settings
+
+# Controls whether systemd support is enabled or disabled
+# Default: true
+# Values:
+# - true
+# - false
+wsl_boot_systemd: true
+
+# Command to run at each boot (as root)
+# Default: Not set
+# Example: command="service docker start"
+wsl_boot_command: ""
+
+# Automount Settings
+
+# Controls whether Windows drives are automatically mounted
+# Default: true
+# Values:
+# - true
+# - false
+wsl_automount_enabled: true
+
+# Controls whether /etc/fstab entries are automatically mounted
+# Default: true
+# Values:
+# - true
+# - false
+wsl_automount_mountfstab: true
+
+# Sets the mount point for Windows mounted drives
+# Default: /mnt/
+# Values: Any valid absolute directory path
+wsl_automount_root: /mnt/
+
+# Sets additional mount options
+# Default: None (Uses internal defaults if not specified)
+wsl_automount_options: ""
+
+# Network Settings
+
+# Sets a custom hostname
+# Default: Windows hostname
+# Value: Any valid hostname
+wsl_network_hostname: ""
+
+# Controls whether /etc/resolv.conf is automatically generated
+# Default: true
+# Values:
+# - true
+# - false
+wsl_network_generate_resolv_conf: true
+
+# Controls whether /etc/hosts is automatically generated
+# Default: true
+# Values:
+# - true
+# - false
+wsl_network_generate_hosts: true
+
+# Time Settings
+
+# Controls whether the Linux timezone is synchronized with the Windows host timezone
+# Default: true
+# Values:
+# - true
+# - false
+wsl_time_use_windows_timezone: true
+
+# Interop Settings
+
+# Controls whether Windows and Linux interop (launching Windows apps from Linux)
+# Default: true
+# Values:
+# - true
+# - false
+wsl_interop_enabled: true
+
+# Controls whether to append Windows path to $PATH
+# Default: true
+# Values:
+# - true
+# - false
+wsl_interop_append_windows_path: true
+
+# User Settings
+
+# Sets the default Linux user
+# Default: First created user
+wsl_user_default: "{{ ansible_user_id }}"
