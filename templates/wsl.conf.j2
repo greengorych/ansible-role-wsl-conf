@@ -8,6 +8,7 @@
 #   - Configure systemd support
 #   - Control automount and drive options
 #   - Manage network settings
+#   - Manage GPU settings
 #   - Manage Timezone
 #   - Set interop behavior with Windows
 #   - Define default user
@@ -30,6 +31,15 @@
 # - true
 # - false
 systemd={{ wsl_conf_boot_systemd | lower }}
+
+# Controls whether WSL prevents generation of systemd units when systemd is enabled
+# Available in: WSL 2
+# Dependencies: boot.systemd=true
+# Default: true
+# Values:
+# - true
+# - false
+protectBinfmt={{ wsl_conf_boot_protect_binfmt | lower }}
 
 # Command to run at each boot (as root)
 # Available in: WSL 2
@@ -143,6 +153,20 @@ generateResolvConf={{ wsl_conf_network_generate_resolv_conf | lower }}
 # - true
 # - false
 generateHosts={{ wsl_conf_network_generate_hosts | lower }}
+
+####################################################
+# GPU Settings
+####################################################
+
+[gpu]
+# Controls whether Linux applications to access the Windows GPU via para-virtualization
+# Available in: WSL 2
+# Dependencies: None
+# Default: true
+# Values:
+# - true
+# - false
+enabled={{ wsl_conf_gpu_enabled | lower }}
 
 ####################################################
 # Time Settings

@@ -15,6 +15,14 @@
 # - false
 wsl_conf_boot_systemd: true
 
+# Controls whether WSL prevents generation of systemd units when systemd is enabled
+# Dependencies: boot.systemd=true
+# Default: true
+# Values:
+# - true
+# - false
+wsl_conf_boot_protect_binfmt: true
+
 # Command to run at each boot (as root)
 # Default: Not set
 # Example: command="service docker start"
@@ -65,6 +73,17 @@ wsl_conf_network_generate_resolv_conf: true
 # - true
 # - false
 wsl_conf_network_generate_hosts: true
+
+# GPU Settings
+
+# Controls whether Linux applications to access the Windows GPU via para-virtualization
+# Available in: WSL 2
+# Dependencies: None
+# Default: true
+# Values:
+# - true
+# - false
+wsl_conf_gpu_enabled: true
 
 # Time Settings
 
