@@ -29,15 +29,15 @@
 # Values:
 # - true
 # - false
-systemd={{ wsl_boot_systemd | lower }}
+systemd={{ wsl_conf_boot_systemd | lower }}
 
 # Command to run at each boot (as root)
 # Available in: WSL 2
 # Dependencies: Only a single command is allowed, without shell pipes, redirection, or multi-line scripts
 # Default: Not set
 # Example: command="service docker start"
-{% if wsl_boot_command is defined and wsl_boot_command %}
-command="{{ wsl_boot_command }}"
+{% if wsl_conf_boot_command is defined and wsl_conf_boot_command %}
+command="{{ wsl_conf_boot_command }}"
 {% else %}
 # command=
 {% endif %}
@@ -55,7 +55,7 @@ command="{{ wsl_boot_command }}"
 # Values:
 # - true
 # - false
-enabled={{ wsl_automount_enabled | lower }}
+enabled={{ wsl_conf_automount_enabled | lower }}
 
 # Controls whether /etc/fstab entries are automatically mounted
 # Available in: WSL 1/2
@@ -64,14 +64,14 @@ enabled={{ wsl_automount_enabled | lower }}
 # Values:
 # - true
 # - false
-mountFsTab={{ wsl_automount_mountfstab | lower }}
+mountFsTab={{ wsl_conf_automount_mountfstab | lower }}
 
 # Sets the mount point for Windows mounted drives
 # Available in: WSL 1/2
 # Dependencies: automount.enabled=true
 # Default: /mnt/
 # Values: Any valid absolute directory path
-root={{ wsl_automount_root }}
+root={{ wsl_conf_automount_root }}
 
 # Sets additional mount options
 # Available in: WSL 1/2
@@ -103,8 +103,8 @@ root={{ wsl_automount_root }}
 # +--------+---------------------------------------------------+
 #
 # Example: options="metadata,uid=1000,gid=1000,umask=022,fmask=000,dmask=000,case=off"
-{% if wsl_automount_options is defined and wsl_automount_options %}
-options="{{ wsl_automount_options }}"
+{% if wsl_conf_automount_options is defined and wsl_conf_automount_options %}
+options="{{ wsl_conf_automount_options }}"
 {% else %}
 # options=
 {% endif %}
@@ -120,8 +120,8 @@ options="{{ wsl_automount_options }}"
 # Dependencies: None
 # Default: Windows hostname
 # Value: Any valid hostname
-{% if wsl_network_hostname is defined and wsl_network_hostname %}
-hostname={{ wsl_network_hostname }}
+{% if wsl_conf_network_hostname is defined and wsl_conf_network_hostname %}
+hostname={{ wsl_conf_network_hostname }}
 {% else %}
 # hostname=
 {% endif %}
@@ -133,7 +133,7 @@ hostname={{ wsl_network_hostname }}
 # Values:
 # - true
 # - false
-generateResolvConf={{ wsl_network_generate_resolv_conf | lower }}
+generateResolvConf={{ wsl_conf_network_generate_resolv_conf | lower }}
 
 # Controls whether /etc/hosts is automatically generated
 # Available in: WSL 1/2
@@ -142,7 +142,7 @@ generateResolvConf={{ wsl_network_generate_resolv_conf | lower }}
 # Values:
 # - true
 # - false
-generateHosts={{ wsl_network_generate_hosts | lower }}
+generateHosts={{ wsl_conf_network_generate_hosts | lower }}
 
 ####################################################
 # Time Settings
@@ -157,7 +157,7 @@ generateHosts={{ wsl_network_generate_hosts | lower }}
 # Values:
 # - true
 # - false
-useWindowsTimezone={{ wsl_time_use_windows_timezone | lower }}
+useWindowsTimezone={{ wsl_conf_time_use_windows_timezone | lower }}
 
 ####################################################
 # Interop Settings
@@ -172,7 +172,7 @@ useWindowsTimezone={{ wsl_time_use_windows_timezone | lower }}
 # Values:
 # - true
 # - false
-enabled={{ wsl_interop_enabled | lower }}
+enabled={{ wsl_conf_interop_enabled | lower }}
 
 # Controls whether to append Windows path to $PATH
 # Available in: WSL 1/2
@@ -181,7 +181,7 @@ enabled={{ wsl_interop_enabled | lower }}
 # Values:
 # - true
 # - false
-appendWindowsPath={{ wsl_interop_append_windows_path | lower }}
+appendWindowsPath={{ wsl_conf_interop_append_windows_path | lower }}
 
 ####################################################
 # User Settings
@@ -193,4 +193,4 @@ appendWindowsPath={{ wsl_interop_append_windows_path | lower }}
 # Available in: WSL 2
 # Dependencies: Must be an existing user
 # Default: First created user
-default={{ wsl_user_default }}
+default={{ wsl_conf_user_default }}
