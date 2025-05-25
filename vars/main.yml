@@ -23,6 +23,7 @@
 # Example: command="service docker start"
 # wsl_conf_boot_command: ""
 
+
 # Automount Settings
 
 # Controls whether Windows drives are automatically mounted
@@ -48,6 +49,7 @@
 # Default: None (Uses internal defaults if not specified)
 # wsl_conf_automount_options: ""
 
+
 # Network Settings
 
 # Sets a custom hostname
@@ -69,6 +71,7 @@
 # - false
 # wsl_conf_network_generate_hosts: true
 
+
 # GPU Settings
 
 # Controls whether Linux applications to access the Windows GPU via para-virtualization
@@ -80,6 +83,7 @@
 # - false
 # wsl_conf_gpu_enabled=true
 
+
 # Time Settings
 
 # Controls whether the Linux timezone is synchronized with the Windows host timezone
@@ -88,6 +92,7 @@
 # - true
 # - false
 # wsl_conf_time_use_windows_timezone: true
+
 
 # Interop Settings
 
@@ -104,6 +109,7 @@
 # - true
 # - false
 # wsl_conf_interop_append_windows_path: true
+
 
 # User Settings
 
