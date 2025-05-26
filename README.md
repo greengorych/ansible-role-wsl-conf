@@ -1,42 +1,72 @@
 # Ansible Role: wsl-conf
 
-Ansible role for generating or changing per-distribution WSL configuration file [`wsl.conf`](https://github.com/greengorych/wsl-configurations/tree/main/defaults/wsl.conf).
+Ansible role to manage per-distribution WSL 1 and WSL 2 configuration file [`wsl.conf`](https://github.com/greengorych/wsl-configurations/tree/main/defaults/wsl.conf).
 
->[!TIP]
->You can use [`cloud-init`](https://github.com/greengorych/wsl-configurations/tree/main/defaults/.cloud-init) for generating or changing [`wsl.conf`](https://github.com/greengorych/wsl-configurations/tree/main/defaults/wsl.conf) for new instances.
+> [!TIP]
+> You can use [`cloud-init`](https://github.com/greengorych/wsl-configurations/tree/main/defaults/.cloud-init) for generating `wsl.conf` for new WSL 2 virtual machines with cloud-init support.
+
+By default, this role generates and manages a `wsl.conf` file that includes:
+- Variable descriptions
+- Variable dependencies
+- Default values
+- Possible values
+- Variables with default or overridden values
 
 ## Requirements
 
-- Windows Subsystem for Linux (WSL) must be installed and configured on the target system.
+- Windows Subsystem for Linux (WSL) must already be installed and configured on the target system.
 - Supported Linux distributions running inside WSL (e.g., Ubuntu, Debian, Fedora, AlmaLinux, etc.).
 - Ansible version 2.12 or higher is recommended.
 
 ## Role Variables
 
-Below are the variables you can use to customize `wsl.conf`.
+The following variables allow customization of the `wsl.conf` file and its management by this role.
 
 >[!IMPORTANT]
->- You can set or override the role variables in [`vars/main.yml`](https://github.com/greengorych/ansible-role-wsl-conf/blob/main/vars/main.yml).
->- By default, all parameter values match those of a standard WSL installation. The instance will behave exactly as a typical WSL distribution with default `wsl.conf` settings.
->- By default, the `wsl_user_default` variable is set to `{{ ansible_user_id }}`, which resolves to the user running the playbook. This ensures that the default user inside WSL matches the Ansible connection user. Please make sure that `gather_facts: true` is enabled in your playbook, or manually set the `wsl_user_default` variable.
+> - You can set or override the default role variables in your playbook or in [`vars/main.yml`](https://github.com/greengorych/ansible-role-wsl-conf/blob/main/vars/main.yml).
+> - By default, all variable values match those of a standard WSL installation. The virtual machine will behave exactly as a typical WSL distribution with default `wsl.conf` settings.
+> - By default, `wsl_user_default` is set to `{{ ansible_user_id }}`, which matches the user running the playbook. This requires `gather_facts: true` to populate `ansible_user_id`. If facts are not gathered, set `wsl_user_default` manually.
 
-### Main Parameters
+### Mapping Role Variables to wsl.conf Settings
 
-| Section   | Parameter          | Variable                         | Values                    | Default         |
-|-----------|--------------------|----------------------------------|---------------------------|-----------------|
-| boot      | systemd            | wsl_boot_systemd                 | true, false               | true            |
-| boot      | command            | wsl_boot_command                 |                           | Not set         |
-| automount | enabled            | wsl_automount_enabled            | true, false               | true            |
-| automount | mountFsTab         | wsl_automount_mountfstab         | true, false               | true            |
-| automount | root               | wsl_automount_root               |                           | /mnt/           |
-| automount | options            | wsl_automount_options            | See table "Mount Options" | Not set         |
-| network   | hostname           | wsl_network_hostname             | Any valid hostname        | Not set         |
-| network   | generateResolvConf | wsl_network_generate_resolv_conf | true, false               | true            |
-| network   | generateHosts      | wsl_network_generate_hosts       | true, false               | true            |
-| time      | useWindowsTimezone | wsl_time_use_windows_timezone    | true, false               | true            |
-| interop   | enabled            | wsl_interop_enabled              | true, false               | true            |
-| interop   | appendWindowsPath  | wsl_interop_append_windows_path  | true, false               | true            |
-| user      | default            | wsl_user_default                 | Existing user             | ansible_user_id |
+The table below maps role variables to their corresponding [section] and key in the resulting `wsl.conf` file:
+
+| Role variable                         | Configuration section | Configuration variable |
+| ------------------------------------- |-----------------------|------------------------|
+| wsl_conf_boot_systemd                 | [boot]                | systemd                |
+| wsl_conf_boot_protect_binfmt          | [boot]                | protectBinfmt          |
+| wsl_conf_boot_command                 | [boot]                | command                |
+| wsl_conf_automount_enabled            | [automount]           | enabled                |
+| wsl_conf_automount_mount_fstab        | [automount]           | mountFsTab             |
+| wsl_conf_automount_root               | [automount]           | root                   |
+| wsl_conf_automount_options            | [automount]           | options                |
+| wsl_conf_network_hostname             | [network]             | hostname               |
+| wsl_conf_network_generate_resolv_conf | [network]             | generateResolvConf     |
+| wsl_conf_network_generate_hosts       | [network]             | generateHosts          |
+| wsl_conf_gpu_enabled                  | [gpu]                 | enabled                |
+| wsl_conf_time_use_windows_timezone    | [time]                | useWindowsTimezone     |
+| wsl_conf_interop_enabled              | [interop]             | enabled                |
+| wsl_conf_interop_append_windows_path  | [interop]             | appendWindowsPath      |
+| wsl_conf_user_default                 | [user]                | default                |
+
+## Configuration Reference
+
+### [boot] section
+
+| Variable      | Values      | Default | Description                      |
+| ------------- | ----------- | ------- | -------------------------------- |
+| systemd       | true, false | true    | Enables systemd support          |
+| protectBinfmt | true, false | true    | Blocks systemd unit generation   |
+| command       | string      | Not set | Command to run at boot (as root) |
+
+### [automount] section
+
+| Variable   | Values               | Default | Description                                          |
+| ---------- | -------------------- | ------- | ---------------------------------------------------- |
+| enabled    | true, false          | true    | Auto-mount Windows drives                            |
+| mountFsTab | true, false          | true    | Auto-mount /etc/fstab entries                        |
+| root       | path (string)        | /mnt/   | Mount point for Windows drives                       |
+| options    | comma-separated list | Not set | Additional mount options (see table "Mount Options") |
 
 ### Mount Options
 
@@ -58,18 +88,52 @@ Below are the variables you can use to customize `wsl.conf`.
 | dir    | Enables case sensitivity for specific directories |
 | force  | Forces all new directories to be case-sensitive   |
 
+### [network] section
+
+| Variable           | Values      | Default          | Description                    |
+| ------------------ | ----------- | ---------------- | ------------------------------ |
+| hostname           | string      | Windows hostname | Custom hostname                |
+| generateResolvConf | true, false | true             | Auto-generate /etc/resolv.conf |
+| generateHosts      | true, false | true             | Auto-generate /etc/hosts       |
+
+### [gpu] section
+
+| Variable | Values      | Default | Description                        |
+| -------- | ----------- | ------- | ---------------------------------- |
+| enabled  | true, false | true    | Enable Linux access to Windows GPU |
+
+### [time] section
+
+| Variable           | Values      | Default | Description                      |
+| ------------------ | ----------- | ------- | -------------------------------- |
+| useWindowsTimezone | true, false | true    | Sync Linux timezone with Windows |
+
+### [interop] section
+
+| Variable          | Values      | Default | Description                       |
+| ----------------- | ----------- | ------- | --------------------------------- |
+| enabled           | true, false | true    | Enable Windows/Linux interop      |
+| appendWindowsPath | true, false | true    | Append Windows PATH to Linux PATH |
+
+### [user] section
+
+| Variable | Values   | Default            | Description        |
+| -------- | -------- | ------------------ | ------------------ |
+| default  | username | First created user | Default Linux user |
+
+
 ## Dependencies
 
-This role has no external dependencies.
+This role has no external Ansible dependencies.
 
 ## Example Playbook
 
 ```yaml
-- name: Customizing wsl.conf
+- name: Managing wsl.conf
   hosts: localhost
   gather_facts: true
   roles:
-    - { role: ansible-role-wsl-conf }
+    - ansible-role-wsl-conf
 ```
 
 ## License
